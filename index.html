@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lala land</title>
+  <link rel="icon" href="./assets/image/logokecil.png" type="image/png">
+
+  <!-- Third Party Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+<body>
+  <!-- Header -->
+  <header id="header" class="bg-light px-4 pt-3">
+    <img src="./assets/image/logo.png" alt="Logo" style="width: 175px;">
+  </header>
+
+  <!-- Buttons -->
+  <div id="button" class="d-flex justify-content-center bg-light">
+    <button class="btn px-3 fs-5" id="showPopup1">FILTERS</button>
+    <button class="btn px-3 fs-5" id="showPopup2">BASEMAP</button>
+    <button class="btn px-3 fs-5" id="showPopup3">CONTACT US</button>
+  </div>
+  
+  <!-- Main -->
+  <main>
+    <div id="map"></div>
+  </main>
+
+  <!-- Reset Button -->
+  <div id="resetButton" class="leaflet-top leaflet-right">
+    <div class="leaflet-control leaflet-bar">
+      <button class="btn btn-primary" onclick="resetMap()">
+        <i class="fas fa-location-crosshairs"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Reset Filter Button -->
+  <div id="resetfilterButton" class="leaflet-top leaflet-right">
+    <div class="leaflet-control leaflet-bar">
+      <button class="btn btn-primary">
+        <i></i> Reset Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Popups -->
+  <div id="popup1" class="popup">
+    <button type="button" class="close-btn" onclick="togglePopup('popup1')"><i class="fa-solid fa-xmark"></i></button> <!-- Tombol X -->
+    <div class="popup-content text-dark">
+      <h3 class="text-center">FILTERS</h3>
+      <p>Pilih layer yang ingin ditampilkan:</p>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="variabel" id="layerVariabel" checked>
+        <label class="form-check-label" for="layerVariabel">Variabel Penentu</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="layer" value="enambelas" id="layerEnambelas">
+        <label class="form-check-label" for="layerEnambelas">ZNT 2016</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="layer" value="sembilanbelas" id="layerSembilanbelas">
+        <label class="form-check-label" for="layerSembilanbelas">ZNT 2019</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="layer" value="duadua" id="layerDuadua">
+        <label class="form-check-label" for="layerDuadua">ZNT 2022</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="layer" value="duaempat" id="layerDuaempat">
+        <label class="form-check-label" for="layerDuaempat">ZNT 2024</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="layer" value="dualima" id="layerDualima">
+        <label class="form-check-label" for="layerDualima">ZNT 2025</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="layer" value="dualapan" id="layerDualapan">
+        <label class="form-check-label" for="layerDualapan">ZNT 2028</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="layer" value="tigasatu" id="layerTigasatu">
+        <label class="form-check-label" for="layerTigasatu">ZNT 2031</label>
+      </div>      
+    </div>      
+    <form onsubmit="return false;" class="filter-form">
+      <div class="form-group">
+          <label for="nilaiBaruFilter">Nilai Tanah (Rp):</label>
+          <input type="number" id="nilaiBaruFilter" placeholder="Nilai maksimum">
+      </div>
+  
+      <div class="form-group">
+          <label for="distanceFilter">Jarak ke SMPN 16 Semarang (m):</label>
+          <input type="number" id="distanceFilter" placeholder="Nilai maksimum">
+      </div>
+  
+      <div class="form-group">
+          <label for="distanceHOFilter">Jarak ke RS Permata Medika (m):</label>
+          <input type="number" id="distanceHOFilter" placeholder="Nilai maksimum">
+      </div>
+  
+      <div class="form-group">
+          <label for="distanceMAFilter">Jarak ke Pasar Ngaliyan (m):</label>
+          <input type="number" id="distanceMAFilter" placeholder="Nilai maksimum">
+      </div>
+  
+      <div class="form-group">
+          <label for="distanceGOFilter">Jarak ke Kantor Kecamatan Ngaliyan (m):</label>
+          <input type="number" id="distanceGOFilter" placeholder="Nilai maksimum">
+      </div>
+  
+      <div class="form-group">
+          <label for="distanceUNFilter">Jarak ke UIN Walisongo (m):</label>
+          <input type="number" id="distanceUNFilter" placeholder="Nilai maksimum">
+      </div>
+  
+      <button onclick="applyFilters()" class="filter-button">Terapkan Filter</button>
+    </form>  
+  </div> 
+
+  <div id="popup2" class="popup">
+    <button type="button" class="close-btn" onclick="togglePopup('popup2')"><i class="fa-solid fa-xmark"></i></button>
+    <div class="popup-content text-dark">
+      <h3 class="text-center">BASEMAP</h3>
+      <p>Pilih basemap:</p>
+      <div id="basemapControls" class="row row-cols-1 row-cols-md-4">
+        <div class="col mb-3">
+          <button class="basemap-btn" onclick="changeBasemap('OpenStreetMap')">
+            <img src="./assets/image/osm.png" alt="OpenStreetMap">
+            <p class="basemap-label">OpenStreetMap</p>
+          </button>
+        </div>
+        <div class="col mb-3">
+          <button class="basemap-btn" onclick="changeBasemap('OpenStreetMapTopo')">
+            <img src="./assets/image/osmtopo.png" alt="OpenStreetMap Topographic">
+            <p class="basemap-label">OpenStreetMap Topographic</p>
+          </button>
+        </div>
+        <div class="col mb-3">
+          <button class="basemap-btn" onclick="changeBasemap('Google Satellite')">
+            <img src="./assets/image/sat.png" alt="Google Satellite">
+            <p class="basemap-label">Google Satellite</p>
+          </button>
+        </div>
+        <div class="col mb-3">
+          <button class="basemap-btn" onclick="changeBasemap('Google Street')">
+            <img src="./assets/image/street.png" alt="Google Street">
+            <p class="basemap-label">Google Street</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup3" class="popup">
+    <button type="button" class="close-btn" onclick="togglePopup('popup3')"><i class="fa-solid fa-xmark"></i></button> <!-- Tombol X -->
+    <div class="popup-content text-dark">
+      <h3 class="text-center">CONTACT US</h3>
+      <p class="mb-3">
+        Selamat datang di situs web kami yang menyediakan informasi lengkap tentang harga nilai tanah di setiap zona dari tahun 2016 hingga 2031. Situs ini dirancang untuk membantu Anda dalam menentukan harga jual/beli tanah maupun merencanakan investasi secara akurat dan efektif. Jika Anda memiliki pertanyaan, kritik, atau saran, dipersilakan menghubungi kami melalui kontak di bawah ini:
+      </p>
+      <p class="fw-bold mb-1">Titoni Raharja</p>
+      <div class="d-flex flex-column align-items-start mb-1">
+        <div class="d-flex align-items-center mb-1">
+          <a href="https://wa.me/6281332172143" target="_blank" class="text-decoration-none text-custom-whatsapp me-2">
+            <i class="fa-brands fa-whatsapp fa-lg"></i>
+          </a>
+          <span class="mb-0">+62 813-3217-2143</span>
+        </div>
+        <div class="d-flex align-items-center mb-1">
+          <a href="https://instagram.com/titoniraharja" target="_blank" class="text-decoration-none text-custom-instagram me-2">
+            <i class="fa-brands fa-instagram fa-lg"></i>
+          </a>
+          <span class="mb-0">@titoniraharja</span>
+        </div>
+        <div class="d-flex align-items-center mb-1">
+          <a href="mailto:titoni250@gmail.com" class="text-decoration-none text-custom-email me-2">
+            <i class="fa-regular fa-envelope fa-lg"></i>
+          </a>
+          <span class="mb-0">titoni250@gmail.com</span>
+        </div>
+      </div>
+      <p class="fw-bold mb-1">Amanda Wijayanti</p>
+      <div class="d-flex flex-column align-items-start mb-3">
+        <div class="d-flex align-items-center mb-1">
+          <a href="https://wa.me/6282135607167" target="_blank" class="text-decoration-none text-custom-whatsapp me-2">
+            <i class="fa-brands fa-whatsapp fa-lg"></i>
+          </a>
+          <span class="mb-0">+62 821-3560-7167</span>
+        </div>
+        <div class="d-flex align-items-center mb-1">
+          <a href="https://instagram.com/amandawjt" target="_blank" class="text-decoration-none text-custom-instagram me-2">
+            <i class="fa-brands fa-instagram fa-lg"></i>
+          </a>
+          <span class="mb-0">@amandawjt</span>
+        </div>
+        <div class="d-flex align-items-center mb-1">
+          <a href="mailto:archiveofamanda@gmail.com" class="text-decoration-none text-custom-email me-2">
+            <i class="fa-regular fa-envelope fa-lg"></i>
+          </a>
+          <span class="mb-0">archiveofamanda@gmail.com</span>
+        </div>
+      </div>
+      <p>Kami siap membantu Anda untuk mendapatkan informasi yang Anda butuhkan terkait jual/beli dan investasi properti tanah. Terima kasih telah mengunjungi situs kami!</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer" class="bg-light p-2">
+    <div class="container text-center">
+      <button id="footerButton" class="btn btn-link">
+        <i class="fas fa-chevron-up"></i>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Info Popup -->
+  <div id="infoPopup" class="info-popup">
+    <button type="button" class="hide-btn" onclick="toggleInfoPopup()">
+      <i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="info-popup-content text-dark">
+      <div class="popup-container">
+        <div class="popup-slide">
+          <div class="popup-box">
+            <div class="popup-image">
+              <img src="./assets/image/rekomsatu.png" alt="Grafik Kenaikan Nilai Tanah 1">
+            </div>
+            <div class="popup-description">
+              <h3 class="mb-1">Zona 1770</h3>
+              <p>Zona dengan presentase kenaikan tertinggi pertama</p>
+              <p class="mb-1"><strong>Nilai Tanah 2024:</strong> Rp 1.507.609</p>
+              <p class="mb-1"><strong>Nilai Tanah 2031:</strong> Rp 5.058.058</p>
+              <p class="mb-1"><strong>Persentase Kenaikan:</strong> 70.19 %</p>
+              <p><a href="#" onclick="(map).setView([-6.987391, 110.337978], 17); return false;">Ke Lokasi</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="popup-slide">
+          <div class="popup-box">
+            <div class="popup-image">
+              <img src="./assets/image/rekomdua.png" alt="Grafik Kenaikan Nilai Tanah 2">
+            </div>
+            <div class="popup-description">
+              <h3 class="mb-1">Zona 372</h3>
+              <p>Zona dengan presentase kenaikan tertinggi kedua</p>
+              <p class="mb-1"><strong>Nilai Tanah 2024:</strong> Rp 1.550.609</p>
+              <p class="mb-1"><strong>Nilai Tanah 2031:</strong> Rp 5.101.058</p>
+              <p class="mb-1"><strong>Persentase Kenaikan:</strong> 69.60 %</p>
+              <p><a href="#" onclick="(map).setView([-7.008230, 110.331684], 17); return false;">Ke Lokasi</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="popup-slide">
+          <div class="popup-box">
+            <div class="popup-image">
+              <img src="./assets/image/rekomtiga.png" alt="Grafik Kenaikan Nilai Tanah 3">
+            </div>
+            <div class="popup-description">
+              <h3 class="mb-1">Zona 203</h3>
+              <p>Zona dengan presentase kenaikan terendah</p>
+              <p class="mb-1"><strong>Nilai Tanah 2024:</strong> Rp 20.617.650</p>
+              <p class="mb-1"><strong>Nilai Tanah 2031:</strong> Rp 24.232.940</p>
+              <p class="mb-1"><strong>Persentase Kenaikan:</strong> 14.92 %</p>
+              <p><a href="#" onclick="(map).setView([-6.986647, 110.359252], 17); return false;">Ke Lokasi</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Third Party Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="./assets/data/variabel.js"></script>
+  <script src="./assets/data/zntenambelas.js"></script>
+  <script src="./assets/data/zntsembilanbelas.js"></script>
+  <script src="./assets/data/zntduadua.js"></script>
+  <script src="./assets/data/zntduaempat.js"></script>
+  <script src="./assets/data/zntdualima.js"></script>
+  <script src="./assets/data/zntdualapan.js"></script>
+  <script src="./assets/data/znttigasatu.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>
