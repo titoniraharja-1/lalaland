@@ -181,7 +181,7 @@
   margin-right: 8px; /* Jarak antara gambar dan teks */
 }
 
-/* CSS untuk ikon variabel */
+/* Style untuk ikon variabel */
 .icon-building-columns i {
   background-color: rgba(255, 255, 255, 0.8); /* Warna latar belakang */
   padding: 5px; /* Ruang di sekitar ikon */
@@ -246,7 +246,7 @@
   z-index: 1001; /* Pastikan tombol X muncul di atas popup */
 }
 
-/* Styling untuk form filter */
+/* Style untuk form filter */
 .filter-form {
   max-width: 500px; /* Lebar maksimum form */
   margin: 0 auto; /* Memusatkan form di halaman */
@@ -256,12 +256,12 @@
   background-color: #f9f9f9; /* Warna latar belakang form */
 }
 
-/* Styling untuk setiap grup elemen form */
+/* Style untuk setiap grup elemen form */
 .form-group {
   margin-bottom: 15px; /* Jarak antar elemen form */
 }
 
-/* Styling label form */
+/* Style label form */
 .form-group label {
   display: block; /* Menjadikan label sebagai elemen blok */
   margin-bottom: 5px; /* Jarak antara label dan input */
@@ -269,7 +269,7 @@
   color: #333; /* Warna teks label */
 }
 
-/* Styling input form */
+/* Style input form */
 .form-group input {
   width: 100%; /* Input mengisi lebar penuh container */
   padding: 10px; /* Padding di dalam input */
@@ -278,7 +278,7 @@
   box-sizing: border-box; /* Menambahkan padding dan border dalam lebar input */
 }
 
-/* Styling untuk tombol terapkan filter */
+/* Style untuk tombol terapkan filter */
 .filter-button {
   width: 100%; /* Tombol mengisi lebar penuh container */
   padding: 10px; /* Padding di dalam tombol */
@@ -291,7 +291,7 @@
   transition: background-color 0.3s ease; /* Transisi halus untuk warna latar belakang tombol */
 }
 
-/* Styling untuk tombol filter saat hover */
+/* Style untuk tombol filter saat hover */
 .filter-button:hover {
   background-color: #0056b3; /* Warna latar belakang tombol saat hover */
 }
@@ -312,7 +312,7 @@
   overflow-y: auto; /* Mengaktifkan scroll vertikal jika isi popup lebih panjang dari ketinggian popup */
 }
  
-/* CSS untuk tombol basemap */
+/* Style untuk tombol basemap */
 .basemap-btn {
   width: 100%; /* Tombol mengisi lebar container */
   max-width: calc(100% - 20px); /* Lebar maksimum untuk margin dan padding */
@@ -322,14 +322,14 @@
   background-color: transparent;
 }
 
-/* CSS untuk gambar pratinjau */
+/* Style untuk gambar pratinjau */
 .basemap-btn img {
   width: 100%; /* Gambar mengisi lebar tombol */
   height: auto; /* Menjaga aspek rasio gambar */
   display: block; /* Mencegah margin ekstra */
 }
 
-/* CSS untuk keterangan basemap */
+/* Style untuk keterangan basemap */
 .basemap-label {
   margin-top: 5px; /* Jarak antara gambar dan teks */
   font-size: 14px; /* Ukuran teks */
@@ -443,7 +443,7 @@
   overflow-y: auto; /* Mengaktifkan scroll vertikal */
 }
 
-/* Styling untuk setiap slide */
+/* Style untuk setiap slide */
 .popup-slide {
   display: flex;
   flex-direction: column; /* Setiap slide sebagai kolom */
